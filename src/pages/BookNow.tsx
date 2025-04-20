@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
@@ -32,6 +31,50 @@ interface LocationState {
   trekPrice?: number;
 }
 
+interface Trek {
+  id: string;
+  name: string;
+  price: number;
+  duration: string;
+  difficulty: string;
+  maxAltitude: string;
+}
+
+const availableTreks: Trek[] = [
+  {
+    id: "ebc",
+    name: "Everest Base Camp Trek",
+    price: 1499,
+    duration: "14 days",
+    difficulty: "Moderate to Difficult",
+    maxAltitude: "5,364m"
+  },
+  {
+    id: "annapurna",
+    name: "Annapurna Base Camp Trek",
+    price: 1299,
+    duration: "12 days",
+    difficulty: "Moderate",
+    maxAltitude: "4,130m"
+  },
+  {
+    id: "langtang",
+    name: "Langtang Valley Trek",
+    price: 999,
+    duration: "10 days",
+    difficulty: "Easy to Moderate",
+    maxAltitude: "3,870m"
+  },
+  {
+    id: "manaslu",
+    name: "Manaslu Circuit Trek",
+    price: 1699,
+    duration: "16 days",
+    difficulty: "Difficult",
+    maxAltitude: "5,106m"
+  }
+];
+
 const BookNow = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -58,11 +101,20 @@ const BookNow = () => {
 
   const locationState = location.state as LocationState || {};
   const { trekId, trekName = "Custom Trek Package", trekPrice = 1499 } = locationState;
+  const [selectedTrek, setSelectedTrek] = useState<string>(trekId || "");
+  const [trekPriceState, setTrekPrice] = useState<number>(trekPrice);
 
   useEffect(() => {
+    if (trekId) {
+      setSelectedTrek(trekId);
+      const trek = availableTreks.find(t => t.id === trekId);
+      if (trek) {
+        setTrekPrice(trek.price);
+      }
+    }
     window.scrollTo(0, 0);
     document.title = "Book Now | Excess To Himalayas";
-  }, []);
+  }, [trekId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -71,8 +123,7 @@ const BookNow = () => {
 
   const checkPromoCode = () => {
     if (formData.promoCode.toLowerCase() === "excess2") {
-      // Apply 2% discount
-      const discount = Math.min(trekPrice * 0.02 * formData.trekkers, 200);
+      const discount = Math.min(trekPriceState * 0.02 * formData.trekkers, 200);
       setDiscountAmount(discount);
       setPromoApplied(true);
       toast({
@@ -96,7 +147,7 @@ const BookNow = () => {
   };
 
   const getTotalPrice = () => {
-    const basePrice = trekPrice * formData.trekkers;
+    const basePrice = trekPriceState * formData.trekkers;
     return basePrice - discountAmount;
   };
 
@@ -104,7 +155,6 @@ const BookNow = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate payment processing
     setTimeout(() => {
       setIsSubmitting(false);
       toast({
@@ -113,9 +163,42 @@ const BookNow = () => {
         variant: "default",
       });
       
-      // Redirect to a success page or home page
       navigate("/", { replace: true });
     }, 2000);
+  };
+
+  const renderTrekSelection = () => {
+    if (trekId) return null;
+    
+    return (
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold text-mountainGray mb-4">Select Your Trek</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {availableTreks.map((trek) => (
+            <div
+              key={trek.id}
+              className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+                selectedTrek === trek.id
+                  ? 'border-skyBlue bg-skyBlue/5'
+                  : 'border-gray-200 hover:bg-gray-50'
+              }`}
+              onClick={() => {
+                setSelectedTrek(trek.id);
+                setTrekPrice(trek.price);
+              }}
+            >
+              <h3 className="font-semibold text-mountainGray mb-2">{trek.name}</h3>
+              <div className="text-sm text-gray-600 space-y-1">
+                <p>Duration: {trek.duration}</p>
+                <p>Difficulty: {trek.difficulty}</p>
+                <p>Max Altitude: {trek.maxAltitude}</p>
+                <p className="text-skyBlue font-medium">Price: ${trek.price}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -144,21 +227,9 @@ const BookNow = () => {
                   <span className="text-gray-700">Secure booking with instant confirmation</span>
                 </div>
                 
-                {/* Trip Summary */}
-                <div className="bg-gray-50 p-6 rounded-lg mb-8">
-                  <h2 className="text-xl font-semibold text-mountainGray mb-3">Trip Summary</h2>
-                  <div className="flex flex-col md:flex-row justify-between">
-                    <div>
-                      <h3 className="font-medium text-mountainGray">{trekName}</h3>
-                      <p className="text-gray-500 text-sm">Duration: 14 days</p>
-                    </div>
-                    <div className="mt-2 md:mt-0">
-                      <p className="text-gray-600">Price per person: <span className="font-medium">${trekPrice}</span></p>
-                    </div>
-                  </div>
-                </div>
-                
                 <form onSubmit={handleSubmit}>
+                  {renderTrekSelection()}
+                  
                   {/* Personal Information */}
                   <div className="mb-8">
                     <h2 className="text-xl font-semibold text-mountainGray mb-4">Personal Information</h2>
@@ -439,7 +510,7 @@ const BookNow = () => {
                     <div className="bg-gray-50 p-4 rounded-md mb-6">
                       <div className="flex justify-between py-2">
                         <span className="text-gray-600">Trek Package ({formData.trekkers} {formData.trekkers === 1 ? 'person' : 'people'})</span>
-                        <span className="text-gray-800 font-medium">${trekPrice * formData.trekkers}.00</span>
+                        <span className="text-gray-800 font-medium">${trekPriceState * formData.trekkers}.00</span>
                       </div>
                       
                       {promoApplied && (

@@ -1,10 +1,10 @@
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { Search, Calendar, User, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface BlogPost {
   id: number;
@@ -16,6 +16,7 @@ interface BlogPost {
   author: string;
   category: string;
   url: string;
+  readTime: string;
 }
 
 const blogPosts: BlogPost[] = [
@@ -28,7 +29,8 @@ const blogPosts: BlogPost[] = [
     date: "May 15, 2023",
     author: "Rizan Subedi",
     category: "Trekking",
-    url: "/blog/everest-base-camp-guide"
+    url: "/blog/everest-base-camp-guide",
+    readTime: "8 min read"
   },
   {
     id: 2,
@@ -39,7 +41,8 @@ const blogPosts: BlogPost[] = [
     date: "April 28, 2023",
     author: "Shambhu Subedi",
     category: "Culture",
-    url: "/blog/nepal-cultural-experiences"
+    url: "/blog/nepal-cultural-experiences",
+    readTime: "6 min read"
   },
   {
     id: 3,
@@ -50,7 +53,8 @@ const blogPosts: BlogPost[] = [
     date: "June 10, 2023",
     author: "Dipak Sapkota",
     category: "Tips",
-    url: "/blog/monsoon-trekking"
+    url: "/blog/monsoon-trekking",
+    readTime: "4 min read"
   },
   {
     id: 4,
@@ -61,7 +65,8 @@ const blogPosts: BlogPost[] = [
     date: "July 5, 2023",
     author: "Dilli Parsad Lamsal",
     category: "Gear",
-    url: "/blog/essential-trekking-gear"
+    url: "/blog/essential-trekking-gear",
+    readTime: "5 min read"
   },
   {
     id: 5,
@@ -72,7 +77,8 @@ const blogPosts: BlogPost[] = [
     date: "August 12, 2023",
     author: "Rizan Subedi",
     category: "Health",
-    url: "/blog/acute-mountain-sickness"
+    url: "/blog/acute-mountain-sickness",
+    readTime: "3 min read"
   },
   {
     id: 6,
@@ -83,7 +89,44 @@ const blogPosts: BlogPost[] = [
     date: "September 8, 2023",
     author: "Dinesh Sapkota",
     category: "Accommodation",
-    url: "/blog/nepal-tea-houses"
+    url: "/blog/nepal-tea-houses",
+    readTime: "2 min read"
+  },
+  {
+    id: 7,
+    title: "Sacred Peaks: Religious Significance of Mountains in Nepal",
+    excerpt: "Explore the spiritual importance of Nepal's mountains and their role in local beliefs and traditions.",
+    content: "Sample content...",
+    image: "https://images.unsplash.com/photo-1585227108833-0e0ec00e5c43",
+    date: "October 15, 2023",
+    author: "Shambhu Subedi",
+    category: "Culture",
+    url: "/blog/sacred-mountains-nepal",
+    readTime: "8 min read"
+  },
+  {
+    id: 8,
+    title: "Sustainable Trekking: How to Minimize Your Environmental Impact",
+    excerpt: "Learn practical tips for eco-friendly trekking and contributing to mountain conservation.",
+    content: "Sample content...",
+    image: "https://images.unsplash.com/photo-1486911278844-a81c5267e227",
+    date: "November 2, 2023",
+    author: "Dipak Sapkota",
+    category: "Tips",
+    url: "/blog/sustainable-trekking",
+    readTime: "6 min read"
+  },
+  {
+    id: 9,
+    title: "Photography Guide: Capturing the Himalayas",
+    excerpt: "Expert tips for photographing mountains, landscapes, and cultural moments during your trek.",
+    content: "Sample content...",
+    image: "https://images.unsplash.com/photo-1494587351196-bbf5f29cff42",
+    date: "December 5, 2023",
+    author: "Dilli Parsad Lamsal",
+    category: "Photography",
+    url: "/blog/himalayan-photography",
+    readTime: "10 min read"
   }
 ];
 
@@ -94,14 +137,25 @@ const categories = [
   "Tips",
   "Gear",
   "Health",
-  "Accommodation"
+  "Accommodation",
+  "Photography"
 ];
 
 const Blog = () => {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = "Blog | Excess To Himalayas";
   }, []);
+
+  const filteredPosts = blogPosts.filter(post => {
+    const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
+    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="min-h-screen bg-white">
@@ -118,35 +172,37 @@ const Blog = () => {
           
           <div className="flex flex-col lg:flex-row gap-8 mt-12">
             <div className="lg:w-3/4">
-              {/* Search Bar */}
-              <div className="relative mb-8">
-                <input
-                  type="text"
-                  placeholder="Search articles..."
-                  className="w-full py-3 px-4 pr-12 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-transparent"
-                />
-                <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <div className="flex flex-col md:flex-row gap-4 mb-8">
+                <div className="flex-1">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search articles..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full py-3 px-4 pr-12 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-skyBlue focus:border-transparent"
+                    />
+                    <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  </div>
+                </div>
+                <div className="w-full md:w-48">
+                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              
-              {/* Category Filters */}
-              <div className="flex flex-wrap gap-2 mb-8">
-                {categories.map((category, index) => (
-                  <button
-                    key={index}
-                    className={`px-4 py-2 rounded-full text-sm font-medium ${
-                      category === "All"
-                        ? "bg-skyBlue text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    } transition-colors`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-              
-              {/* Blog List */}
-              <div className="space-y-8">
-                {blogPosts.map(post => (
+
+              <div className="grid grid-cols-1 gap-8">
+                {filteredPosts.map(post => (
                   <div key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition-shadow">
                     <div className="md:w-1/3">
                       <img
@@ -178,22 +234,23 @@ const Blog = () => {
                         {post.excerpt}
                       </p>
                       
-                      <Link
-                        to={post.url}
-                        className="inline-flex items-center text-skyBlue hover:text-skyBlue/80 font-medium"
-                      >
-                        Read more
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
+                      <div className="flex justify-between items-center">
+                        <Link
+                          to={post.url}
+                          className="inline-flex items-center text-skyBlue hover:text-skyBlue/80 font-medium"
+                        >
+                          Read more
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                        <span className="text-sm text-gray-500">{post.readTime}</span>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
             
-            {/* Sidebar */}
             <div className="lg:w-1/4">
-              {/* Recent Posts */}
               <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                 <h3 className="text-lg font-semibold text-mountainGray mb-4">Recent Posts</h3>
                 <div className="space-y-4">
@@ -215,7 +272,6 @@ const Blog = () => {
                 </div>
               </div>
               
-              {/* Categories */}
               <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                 <h3 className="text-lg font-semibold text-mountainGray mb-4">Categories</h3>
                 <ul className="space-y-2">
@@ -235,7 +291,6 @@ const Blog = () => {
                 </ul>
               </div>
               
-              {/* Newsletter */}
               <div className="bg-forestGreen text-white rounded-lg shadow-md p-6">
                 <h3 className="text-lg font-semibold mb-4">Subscribe to Our Newsletter</h3>
                 <p className="text-white/80 text-sm mb-4">
