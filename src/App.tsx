@@ -1,9 +1,8 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import LoadingScreen from "@/components/LoadingScreen";
 import Index from "./pages/Index";
@@ -17,6 +16,7 @@ import Payment from "./pages/Payment";
 import ExcessNowPage from "./pages/ExcessNow";
 import BookNow from "./pages/BookNow";
 import TrekDetail from "./pages/treks/TrekDetail";
+import BlogPost from "./pages/blog/BlogPost";
 
 const App = () => {
   const [queryClient] = useState(() => new QueryClient());
@@ -36,13 +36,14 @@ const App = () => {
         {isLoading && <LoadingScreen />}
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <Router>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about/our-story" element={<AboutStory />} />
             <Route path="/about/team" element={<Team />} />
             <Route path="/about/legal-documents" element={<LegalDocuments />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:url" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/book-now" element={<BookNow />} />
@@ -50,7 +51,7 @@ const App = () => {
             <Route path="/treks/:trekId" element={<TrekDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
+        </Router>
       </TooltipProvider>
     </QueryClientProvider>
   );

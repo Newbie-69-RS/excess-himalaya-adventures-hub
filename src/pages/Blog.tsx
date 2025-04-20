@@ -164,8 +164,8 @@ const Blog = () => {
       <div className="pt-24 pb-10">
         <div className="container mx-auto px-6 py-12">
           <div className="section-header">
-            <h1 className="section-title">Our Blog</h1>
-            <p className="section-subtitle">
+            <h1 className="section-title" contentEditable>Our Blog</h1>
+            <p className="section-subtitle" contentEditable>
               Travel insights, expert tips, and stories from the Himalayas
             </p>
           </div>
@@ -226,17 +226,17 @@ const Blog = () => {
                         </div>
                       </div>
                       
-                      <h2 className="text-xl font-semibold text-mountainGray mb-3">
+                      <h2 className="text-xl font-semibold text-mountainGray mb-3" contentEditable>
                         {post.title}
                       </h2>
                       
-                      <p className="text-gray-600 mb-4">
+                      <p className="text-gray-600 mb-4" contentEditable>
                         {post.excerpt}
                       </p>
                       
                       <div className="flex justify-between items-center">
                         <Link
-                          to={post.url}
+                          to={post.url.replace('/blog/', '')}
                           className="inline-flex items-center text-skyBlue hover:text-skyBlue/80 font-medium"
                         >
                           Read more

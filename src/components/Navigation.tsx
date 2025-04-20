@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, ChevronDown, Home, MapPin, Route, Heart, Users, BookOpen, Phone, CreditCard, X, Menu as MenuIcon } from "lucide-react";
@@ -164,7 +163,7 @@ const Navigation = () => {
 const NavItem = ({ to, icon, label }: { to: string; icon?: React.ReactNode; label: string }) => (
   <Link to={to} className="nav-item group text-skyBlue">
     <span className="flex items-center">
-      {icon}
+      {to !== "/book-now" && icon}
       {label}
     </span>
   </Link>
