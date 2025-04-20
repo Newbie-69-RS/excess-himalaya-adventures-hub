@@ -1,9 +1,10 @@
+
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { CheckCircle, XCircle, Calendar, Clock, Users, Mountain, Star, Bookmark, MapPin, CameraOff } from "lucide-react";
+import { CheckCircle, XCircle, Calendar, Clock, Users, Mountain, Star, Bookmark, MapPin, CameraOff, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
