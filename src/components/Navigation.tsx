@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, ChevronDown, Home, MapPin, Route, Heart, Users, BookOpen, Phone, CreditCard, X, Menu as MenuIcon } from "lucide-react";
@@ -12,15 +13,20 @@ const Navigation = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 bg-skyBlue shadow-md py-2">
+      <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md py-2">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center">
               <img
                 src="/lovable-uploads/15240964-889f-48e6-b5ca-bf1d8fe0e00d.png"
                 alt="Excess To Himalayas"
-                className="h-16"
+                className="h-20"
               />
+              <div className="ml-3 hidden md:block">
+                <h1 className="text-skyBlue text-xl font-semibold">Excess To Himalayas</h1>
+                <p className="text-mountainGray text-sm italic">Submitting Dreams Since 2006</p>
+                <p className="text-mountainGray text-xs">Tourism License: 1111/0000</p>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
@@ -37,6 +43,10 @@ const Navigation = () => {
                   { label: "Manaslu", to: "/treks/manaslu" },
                   { label: "Mardi Himal", to: "/treks/mardi-himal" },
                   { label: "Upper Mustang", to: "/treks/upper-mustang" },
+                  { label: "Ghorepani Poon Hill", to: "/treks/ghorepani-poon-hill" },
+                  { label: "Annapurna Base Camp", to: "/treks/annapurna-base-camp" },
+                  { label: "Kanchenjunga Base Camp", to: "/treks/kanchenjunga-base-camp" },
+                  { label: "Makalu Base Camp", to: "/treks/makalu-base-camp" },
                 ]} 
               />
               
@@ -49,6 +59,9 @@ const Navigation = () => {
                   { label: "Jungle Safari", to: "/tours/jungle-safari" },
                   { label: "Helicopter Tours", to: "/tours/helicopter" },
                   { label: "Mountain Flights", to: "/tours/mountain-flights" },
+                  { label: "Pokhara Getaway", to: "/tours/pokhara-getaway" },
+                  { label: "Chitwan National Park", to: "/tours/chitwan-national-park" },
+                  { label: "Lumbini Pilgrimage", to: "/tours/lumbini-pilgrimage" },
                 ]} 
               />
               
@@ -66,13 +79,13 @@ const Navigation = () => {
               
               <NavItem to="/blog" icon={<BookOpen className="w-4 h-4 mr-1" />} label="Blog" />
               <NavItem to="/contact" icon={<Phone className="w-4 h-4 mr-1" />} label="Contact" />
-              <NavItem to="/payment" icon={<CreditCard className="w-4 h-4 mr-1" />} label="Payment Portal" />
+              <NavItem to="/book-now" icon={<CreditCard className="w-4 h-4 mr-1" />} label="Book Now" />
             </nav>
 
             {/* Mobile menu button */}
             <button
               onClick={toggleMobileMenu}
-              className="lg:hidden text-white focus:outline-none"
+              className="lg:hidden text-skyBlue focus:outline-none"
             >
               <MenuIcon className="h-6 w-6" />
             </button>
@@ -107,6 +120,8 @@ const Navigation = () => {
               { label: "Manaslu", to: "/treks/manaslu" },
               { label: "Mardi Himal", to: "/treks/mardi-himal" },
               { label: "Upper Mustang", to: "/treks/upper-mustang" },
+              { label: "Ghorepani Poon Hill", to: "/treks/ghorepani-poon-hill" },
+              { label: "Annapurna Base Camp", to: "/treks/annapurna-base-camp" },
             ]} 
             onClick={toggleMobileMenu}
           />
@@ -119,6 +134,7 @@ const Navigation = () => {
               { label: "Jungle Safari", to: "/tours/jungle-safari" },
               { label: "Helicopter Tours", to: "/tours/helicopter" },
               { label: "Mountain Flights", to: "/tours/mountain-flights" },
+              { label: "Pokhara Getaway", to: "/tours/pokhara-getaway" },
             ]} 
             onClick={toggleMobileMenu}
           />
@@ -137,7 +153,7 @@ const Navigation = () => {
           
           <MobileNavItem to="/blog" label="Blog" onClick={toggleMobileMenu} />
           <MobileNavItem to="/contact" label="Contact" onClick={toggleMobileMenu} />
-          <MobileNavItem to="/payment" label="Payment Portal" onClick={toggleMobileMenu} />
+          <MobileNavItem to="/book-now" label="Book Now" onClick={toggleMobileMenu} />
         </nav>
       </div>
     </>
@@ -146,7 +162,7 @@ const Navigation = () => {
 
 // Desktop navigation components
 const NavItem = ({ to, icon, label }: { to: string; icon?: React.ReactNode; label: string }) => (
-  <Link to={to} className="nav-item group">
+  <Link to={to} className="nav-item group text-skyBlue">
     <span className="flex items-center">
       {icon}
       {label}
@@ -167,7 +183,7 @@ const NavDropdown = ({
 
   return (
     <div className="relative group" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-      <button className="nav-item flex items-center">
+      <button className="nav-item flex items-center text-skyBlue">
         {icon}
         {label}
         <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />

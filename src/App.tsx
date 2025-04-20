@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +15,8 @@ import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Payment from "./pages/Payment";
 import ExcessNowPage from "./pages/ExcessNow";
+import BookNow from "./pages/BookNow";
+import TrekDetail from "./pages/treks/TrekDetail";
 
 const App = () => {
   const [queryClient] = useState(() => new QueryClient());
@@ -42,7 +45,9 @@ const App = () => {
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/book-now" element={<BookNow />} />
             <Route path="/excess-now" element={<ExcessNowPage />} />
+            <Route path="/treks/:trekId" element={<TrekDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap');
 
 @tailwind base;
@@ -107,7 +108,7 @@
   }
 
   .nav-item {
-    @apply relative px-3 py-2 text-white hover:text-sunsetOrange transition-colors duration-300;
+    @apply relative px-3 py-2 hover:text-sunsetOrange transition-colors duration-300;
   }
 
   .nav-item::after {
