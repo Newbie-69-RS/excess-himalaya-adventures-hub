@@ -1,10 +1,10 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import LoadingScreen from "@/components/LoadingScreen";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AboutStory from "./pages/about/AboutStory";
@@ -16,12 +16,21 @@ import Payment from "./pages/Payment";
 import ExcessNowPage from "./pages/ExcessNow";
 
 const App = () => {
-  // Create a new QueryClient instance inside the component
   const [queryClient] = useState(() => new QueryClient());
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        {isLoading && <LoadingScreen />}
         <Toaster />
         <Sonner />
         <BrowserRouter>
@@ -34,7 +43,6 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/excess-now" element={<ExcessNowPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

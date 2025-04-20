@@ -1,27 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, ChevronDown, Home, MapPin, Route, Heart, Users, BookOpen, Phone, CreditCard, X, Menu as MenuIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -29,21 +12,14 @@ const Navigation = () => {
 
   return (
     <>
-      <header
-        className={cn(
-          "fixed top-0 left-0 w-full z-50 transition-all duration-300",
-          isScrolled
-            ? "bg-mountainGray/95 shadow-md py-2"
-            : "bg-transparent py-4"
-        )}
-      >
+      <header className="fixed top-0 left-0 w-full z-50 bg-skyBlue shadow-md py-2">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center">
               <img
-                src="https://placehold.co/200x60?text=Excess+To+Himalayas"
+                src="/lovable-uploads/15240964-889f-48e6-b5ca-bf1d8fe0e00d.png"
                 alt="Excess To Himalayas"
-                className="h-10 md:h-12"
+                className="h-16"
               />
             </Link>
 
