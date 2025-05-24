@@ -19,7 +19,7 @@ interface BlogPost {
   readTime: string;
 }
 
-const blogPosts: BlogPost[] = [
+export const blogPosts: BlogPost[] = [
   {
     id: 1,
     title: "The Complete Guide to Everest Base Camp Trek",
